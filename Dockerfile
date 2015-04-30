@@ -10,7 +10,7 @@
 FROM debian:jessie
 MAINTAINER Alexander Turcic "alex@zeitgeist.se"
 
-# Install dependencies.
+# Compile whois
 RUN \
   apt-get update && \
   DEBIAN_FRONTEND=noninteractive apt-get install -y \
@@ -18,16 +18,19 @@ RUN \
     make \
     gcc \
     gettext \
-    libidn11-dev
-
-RUN \
+    libidn11-dev && \
   git clone https://github.com/rfc1036/whois.git && \
   cd whois && \
   make && \
   make install && \
   cd .. && \
   rm -rf whois && \
-  apt-get -y purge git make gcc gettext libidn11-dev && \
+  apt-get -y purge \
+    git \
+    make \
+    gcc \
+    gettext \
+    libidn11-dev && \
   apt-get -y autoremove --purge && \
   rm -rf /var/lib/apt/lists/*
 
